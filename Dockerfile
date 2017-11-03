@@ -5,7 +5,7 @@ MAINTAINER Marcos Entenza <mak@redhat.com>
 LABEL io.k8s.description="AWS EBS snaphot manager for OCP" \
       io.k8s.display-name="AWS EBS snaphot manager for OCP"
 
-ENV PATH=$PATH:/root/.local/bin
+ENV PATH=$PATH:/usr/local/bin
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 ENV AWS_REGION=${AWS_REGION}
@@ -21,7 +21,8 @@ pip install --upgrade pip && \
 pip install awscli --upgrade --user && \
 wget -O /usr/local/src/oc-v3.6.1.tar.gz https://github.com/openshift/origin/releases/download/v3.6.1/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit.tar.gz && \
 tar zxf /usr/local/src/oc-v3.6.1.tar.gz -C /usr/local/src/ --strip-components=1 2> /dev/null && \
-cp -p /usr/local/src/oc /root/.local/bin/ && \
+cp -p /usr/local/src/oc /usr/local/bin/ && \
+cp -p /root/.local/bin/aw* /usr/local/bin/ && \
 rm -rf /usr/local/src/*
 
 
