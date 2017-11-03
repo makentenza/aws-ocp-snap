@@ -11,6 +11,7 @@ ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 ENV AWS_REGION=${AWS_REGION}
 
 
+
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
 rm -fr /var/cache/yum/* && \
 yum clean all && \
