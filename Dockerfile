@@ -11,13 +11,19 @@ ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 ENV AWS_REGION=${AWS_REGION}
 
 
+
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
 rm -fr /var/cache/yum/* && \
 yum clean all && \
-INSTALL_PKGS="python2-pip" && \ 
+INSTALL_PKGS="python2-pip wget" && \ 
 yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
 rpm -V $INSTALL_PKGS && \
 yum clean all && \
-pip install awscli --upgrade --user
+pip install --upgrade pip && \
+pip install awscli --upgrade --user && \
+wget -O /usr/local/src/oc-v3.6.1.tar.gz https://github.com/openshift/origin/releases/download/v3.6.1/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit.tar.gz && \
+tar zxf /usr/local/src/oc-v3.6.1.tar.gz && \
+cp -p /usr/local/src/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit/oc /root/.local/bin/
+
 
 CMD [ "/usr/bin/sleep", "10000000" ]
