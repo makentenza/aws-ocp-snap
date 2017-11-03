@@ -20,8 +20,9 @@ yum clean all && \
 pip install --upgrade pip && \
 pip install awscli --upgrade --user && \
 wget -O /usr/local/src/oc-v3.6.1.tar.gz https://github.com/openshift/origin/releases/download/v3.6.1/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit.tar.gz && \
-tar zxf /usr/local/src/oc-v3.6.1.tar.gz && \
-cp -p /usr/local/src/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit/oc /root/.local/bin/
+tar zxf /usr/local/src/oc-v3.6.1.tar.gz -C /usr/local/src/ --strip-components=1 2> /dev/null && \
+cp -p /usr/local/src/oc /root/.local/bin/ && \
+rm -rf /usr/local/src/*
 
 
 CMD [ "/usr/bin/sleep", "10000000" ]
