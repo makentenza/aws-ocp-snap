@@ -9,6 +9,8 @@ ENV PATH=$PATH:/usr/local/bin
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 ENV AWS_DEFAULT_REGION=${AWS_REGION}
+ENV NSPACE=${OCP_NAMESPACE}
+ENV VOL=${OCP_VOLUME}
 
 ADD  include/create_snapshot.sh /usr/local/bin/
 
@@ -29,4 +31,4 @@ chmod +x /usr/local/bin/create_snapshot.sh
 
 
 
-CMD [ "/usr/bin/sleep", "10000000" ]
+CMD [ "/usr/local/bin", "${NSPACE}", "${VOL}" ]
