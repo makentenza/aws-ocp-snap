@@ -17,7 +17,7 @@ case "$NAMESPACE" in
                 exit 2
             fi
             NOVOL=$(grep "No resources found" $TMPFILE | wc -l)
-            if ( $NOVOL -gt 0 );then
+            if [ $NOVOL -gt 0 ];then
                 echo "There are no presistent volumes configured"
                 exit 1
             fi
@@ -40,7 +40,7 @@ case "$NAMESPACE" in
                             exit 2
                         fi
                         NOVOL=$(grep "No resources found" $TMPFILE | wc -l)
-                        if ( $NOVOL -gt 0 );then
+                        if [ $NOVOL -gt 0 ];then
                             echo "There are no presistent volumes configured"
                             exit 1
                         fi
@@ -57,7 +57,7 @@ case "$NAMESPACE" in
                             exit 2
                         fi
                         NOVOL=$(grep "No resources found" $TMPFILE | wc -l)
-                        if ( $NOVOL -gt 0 );then
+                        if [ $NOVOL -gt 0 ];then
                             echo "There are no presistent volumes configured"
                             exit 1
                         fi
