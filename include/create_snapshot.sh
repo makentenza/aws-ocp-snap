@@ -11,7 +11,7 @@ if [ -z "$NAMESPACE" -o "$NAMESPACE" = " " ]; then
 fi
 case "$NAMESPACE" in
         "ALL")
-            oc get pv --no-headers
+            oc get pv --no-headers &>/dev/null
             if [ ! $? -eq 0 ]; then
                 echo "Error while getting EBS volumes information"
                 exit 2
@@ -25,7 +25,7 @@ case "$NAMESPACE" in
                     while read vol
                     do
                         echo "Creating snapshot for EBS volume " $vol
-                        echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
+                        aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
                     done < $TMPFILE
                 fi
             fi
@@ -37,7 +37,7 @@ case "$NAMESPACE" in
             fi
             case "$VOLUME" in
                     "ALL")
-                        oc get pvc --no-headers -n $NAMESPACE
+                        oc get pvc --no-headers -n $NAMESPACE &>/dev/null
                         if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
@@ -51,13 +51,13 @@ case "$NAMESPACE" in
                                 while read vol
                                 do
                                     echo "Creating snapshot for EBS volume " $vol
-                                    echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
+                                    aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
                                 done < $TMPFILE
                             fi
                         fi
                         ;;
                     *)
-                        oc get pvc --no-headers $VOLUME -n $NAMESPACE
+                        oc get pvc --no-headers $VOLUME -n $NAMESPACE &>/dev/null
                         if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
@@ -71,7 +71,7 @@ case "$NAMESPACE" in
                                 while read vol
                                 do
                                     echo "Creating snapshot for EBS volume " $vol
-                                    echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
+                                    aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
                                 done < $TMPFILE
                             fi
                         fi
