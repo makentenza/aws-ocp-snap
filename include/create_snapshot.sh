@@ -5,6 +5,10 @@ VOLUME=$2
 
 TMPFILE=$(mktemp /tmp/tmp.XXXXXXXXXXXXX)
 
+if [ -z "$NAMESPACE" -o "$NAMESPACE" = " " ]; then
+    echo "A Namepace must be provided or select ALL"
+    exit 2
+fi
 case "$NAMESPACE" in
         "ALL")
             oc describe pv $(oc get pv --no-headers | awk {'print $1'}) | grep VolumeID | cut -d "/" -f 4 >> $TMPFILE
@@ -23,6 +27,10 @@ case "$NAMESPACE" in
             done
             ;;
         *)
+            if [ -z "$VOLUME" -o "$VOLUME" = " " ]; then
+                echo "A Volume must be provided or select ALL"
+                exit 2
+            fi
             case "$VOLUME" in
                     "ALL")
                         oc describe pv $(oc get pvc --no-headers -n $NAMESPACE | awk {'print $3'}) | grep VolumeID | cut -d "/" -f 4 >> $TMPFILE
