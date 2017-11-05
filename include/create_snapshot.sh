@@ -24,7 +24,7 @@ case "$NAMESPACE" in
             while read vol
             do
                 echo "Creating snapshot for EBS volume " $vol
-                aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
+                echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
             done < $TMPFILE
             ;;
         *)
@@ -47,7 +47,7 @@ case "$NAMESPACE" in
                         while read vol
                         do
                             echo "Creating snapshot for EBS volume " $vol
-                            aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
+                            echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
                         done < $TMPFILE
                         ;;
                     *)
@@ -64,7 +64,7 @@ case "$NAMESPACE" in
                         while read vol
                         do
                             echo "Creating snapshot for EBS volume " $vol
-                            aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
+                            echo 'aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"'
                         done < $TMPFILE
                         ;;
             esac
