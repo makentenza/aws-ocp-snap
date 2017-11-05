@@ -10,6 +10,8 @@ ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 ENV AWS_REGION=${AWS_REGION}
 
+ADD  include/create_snapshot.sh /usr/local/bin/
+
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
 rm -fr /var/cache/yum/* && \
 yum clean all && \
@@ -22,7 +24,9 @@ pip install awscli && \
 wget -O /usr/local/src/oc-v3.6.1.tar.gz https://github.com/openshift/origin/releases/download/v3.6.1/openshift-origin-client-tools-v3.6.1-008f2d5-linux-64bit.tar.gz && \
 tar zxf /usr/local/src/oc-v3.6.1.tar.gz -C /usr/local/src/ --strip-components=1 2> /dev/null && \
 cp -p /usr/local/src/oc /usr/local/bin/ && \
-rm -rf /usr/local/src/*
+rm -rf /usr/local/src/* && \
+chmod +x /usr/local/bin/create_snapshot.sh
+
 
 
 CMD [ "/usr/bin/sleep", "10000000" ]
