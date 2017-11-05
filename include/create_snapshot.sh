@@ -16,12 +16,14 @@ case "$NAMESPACE" in
             if [ ! $? -eq 0 ]; then
                 echo "Error while getting EBS volumes information"
                 exit 2
+                break;;
             fi
             oc describe pv $(cat $TMPFILE1) | grep VolumeID | cut -d "/" -f 4 > $TMPFILE2
             NOVOL=$(grep "No resources found" $TMPFILE2 | wc -l)
             if [ $NOVOL -gt 0 ];then
                 echo "There are no presistent volumes configured"
                 exit 1
+                break;;
             fi
             while read vol
             do
@@ -33,6 +35,7 @@ case "$NAMESPACE" in
             if [ -z "$VOLUME" -o "$VOLUME" = " " ]; then
                 echo "A Volume must be provided or select ALL"
                 exit 2
+                break;;
             fi
             case "$VOLUME" in
                     "ALL")
@@ -40,12 +43,14 @@ case "$NAMESPACE" in
                         if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
+                            break;;
                         fi
                         oc describe pv $(cat $TMPFILE1) | grep VolumeID | cut -d "/" -f 4 > $TMPFILE2
                         NOVOL=$(grep "No resources found" $TMPFILE2 | wc -l)
                         if [ $NOVOL -gt 0 ];then
                             echo "There are no presistent volumes configured"
                             exit 1
+                            break;;
                         fi
                         while read vol
                         do
@@ -58,12 +63,14 @@ case "$NAMESPACE" in
                         if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
+                            break;;
                         fi
                         oc describe pv $(cat $TMPFILE1) | grep VolumeID | cut -d "/" -f 4 > $TMPFILE2
                         NOVOL=$(grep "No resources found" $TMPFILE2 | wc -l)
                         if [ $NOVOL -gt 0 ];then
                             echo "There are no presistent volumes configured"
                             exit 1
+                            break;;
                         fi
                         while read vol
                         do
