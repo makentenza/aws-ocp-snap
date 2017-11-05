@@ -12,7 +12,7 @@ fi
 case "$NAMESPACE" in
         "ALL")
             oc describe pv $(oc get pv --no-headers | awk {'print $1'}) | grep VolumeID | cut -d "/" -f 4 >> $TMPFILE
-            if ( $? -ne 0 );then
+            if [ ! $? -eq 0 ]; then
                 echo "Error while getting EBS volumes information"
                 exit 2
             fi
@@ -21,10 +21,11 @@ case "$NAMESPACE" in
                 echo "There are no presistent volumes configured"
                 exit 1
             fi
-            for vol in $TMPFILE ; do
+            while read vol
+            do
                 echo "Creating snapshot for EBS volume " $vol
                 aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
-            done
+            done < $TMPFILE
             ;;
         *)
             if [ -z "$VOLUME" -o "$VOLUME" = " " ]; then
@@ -34,7 +35,7 @@ case "$NAMESPACE" in
             case "$VOLUME" in
                     "ALL")
                         oc describe pv $(oc get pvc --no-headers -n $NAMESPACE | awk {'print $3'}) | grep VolumeID | cut -d "/" -f 4 >> $TMPFILE
-                        if ( $? -ne 0 );then
+                        if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
                         fi
@@ -43,14 +44,15 @@ case "$NAMESPACE" in
                             echo "There are no presistent volumes configured"
                             exit 1
                         fi
-                        for vol in $TMPFILE ; do
+                        while read vol
+                        do
                             echo "Creating snapshot for EBS volume " $vol
                             aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
-                        done
+                        done < $TMPFILE
                         ;;
                     *)
                         oc describe pv $(oc get pvc --no-headers $VOLUME -n $NAMESPACE | awk {'print $3'}) | grep VolumeID | cut -d "/" -f 4 >> $TMPFILE
-                        if ( $? -ne 0 );then
+                        if [ ! $? -eq 0 ]; then
                             echo "Error while getting EBS volumes information"
                             exit 2
                         fi
@@ -59,11 +61,11 @@ case "$NAMESPACE" in
                             echo "There are no presistent volumes configured"
                             exit 1
                         fi
-                        for vol in $TMPFILE ; do
+                        while read vol
+                        do
                             echo "Creating snapshot for EBS volume " $vol
                             aws ec2 create-snapshot --volume-id $vol --description "Automted Snapshot by aws-ocp-snap"
-                        done
+                        done < $TMPFILE
                         ;;
- 
             esac
 esac
