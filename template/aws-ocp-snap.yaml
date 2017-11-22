@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: ${NAME}
+  name: aws-ocp-snap
 objects:
 - apiVersion: v1
   kind: BuildConfig
@@ -20,6 +20,12 @@ objects:
       git:
         uri: https://github.com/makentenza/aws-ocp-snap.git
       contextDir: /
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: centos:7
+      type: Docker
     triggers:
     - type: ConfigChange
 - apiVersion: v1
@@ -84,7 +90,7 @@ parameters:
 - name: SCHEDULE
   displayName: Cron Schedule
   description: Cron Schedule to Execute the Job
-  value: @daily
+  value: "@daily"
   required: true
 - name: SUCCESS_JOBS_HISTORY_LIMIT
   displayName: Successful Job History Limit
@@ -102,13 +108,13 @@ parameters:
   value: "cluster-maintenance"
   required: true
 - name: AWS_ACCESS_KEY_ID
-  displayName: AWS Access Key ID
-  description: AWS Access Key ID to be used to create the snapshots
+  displayName: AWS Access Key ID (base64)
+  description: AWS Access Key ID to be used to create the snapshots (base64)
   value: ""
   required: true
 - name: AWS_SECRET_ACCESS_KEY
-  displayName: AWS Secret Access Key ID
-  description: AWS Secret Access Key ID to be used to create the snapshots
+  displayName: AWS Secret Access Key ID (base64)
+  description: AWS Secret Access Key ID to be used to create the snapshots (base64)
   value: ""
   required: true
 - name: NSPACE
