@@ -4,11 +4,11 @@ metadata:
   name: aws-ocp-snap
 objects:
 - apiVersion: v1
-kind: ImageStream
-metadata:
-  annotations:
-    description: Keeps track of changes in the application image
-  name: ${NAME}
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Keeps track of changes in the application image
+    name: ${NAME}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
