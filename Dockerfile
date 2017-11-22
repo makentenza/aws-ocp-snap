@@ -8,16 +8,16 @@ LABEL io.k8s.description="AWS EBS snaphot manager for OCP" \
 ENV PATH=$PATH:/usr/local/bin
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-ENV AWS_DEFAULT_REGION=${AWS_REGION}
-ENV NSPACE=${OCP_NAMESPACE}
-ENV VOL=${OCP_VOLUME}
+ENV AWS_REGION=${AWS_REGION}
+ENV NSPACE=${NSPACE}
+ENV VOL=${VOL}
 
 ADD  include/create_snapshot.sh /usr/local/bin/
 
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
 rm -fr /var/cache/yum/* && \
 yum clean all && \
-INSTALL_PKGS="python2-pip wget" && \ 
+INSTALL_PKGS="python2-pip wget" && \
 yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
 rpm -V $INSTALL_PKGS && \
 yum clean all && \
@@ -31,4 +31,4 @@ chmod +x /usr/local/bin/create_snapshot.sh
 
 
 
-CMD [ "/usr/local/bin", "${NSPACE}", "${VOL}" ]
+CMD [ "/usr/local/bin/create_snapshot.sh", "${NSPACE}", "${VOL}" ]
