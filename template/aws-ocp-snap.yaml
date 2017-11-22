@@ -4,6 +4,12 @@ metadata:
   name: aws-ocp-snap
 objects:
 - apiVersion: v1
+kind: ImageStream
+metadata:
+  annotations:
+    description: Keeps track of changes in the application image
+  name: ${NAME}
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
@@ -115,6 +121,11 @@ parameters:
 - name: AWS_SECRET_ACCESS_KEY
   displayName: AWS Secret Access Key ID (base64)
   description: AWS Secret Access Key ID to be used to create the snapshots (base64)
+  value: ""
+  required: true
+- name: AWS_REGION
+  displayName: AWS Region (base64)
+  description: AWS Region where EBS objects reside (base64)
   value: ""
   required: true
 - name: NSPACE
