@@ -9,12 +9,16 @@ objects:
     annotations:
       description: Keeps track of changes in the application image
     name: ${NAME}
+    labels:
+      template: aws-ocp-snap
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
       description: Defines how to build the application
     name: ${NAME}
+    labels:
+      template: aws-ocp-snap
   spec:
     completionDeadlineSeconds: "1800"
     output:
@@ -38,6 +42,8 @@ objects:
   kind: Secret
   metadata:
     name: aws-secret
+    labels:
+      template: aws-ocp-snap
   data:
     key_id: ${AWS_ACCESS_KEY_ID}
     access_key: ${AWS_SECRET_ACCESS_KEY}
@@ -46,6 +52,8 @@ objects:
   kind: CronJob
   metadata:
     name: "${JOB_NAME}"
+    labels:
+      template: aws-ocp-snap
   spec:
     schedule: "${SCHEDULE}"
     concurrencyPolicy: Forbid
@@ -82,6 +90,42 @@ objects:
             terminationGracePeriodSeconds: 30
             activeDeadlineSeconds: 500
             dnsPolicy: ClusterFirst
+            serviceAccountName: "${JOB_SERVICE_ACCOUNT}"
+            serviceAccount: "${JOB_SERVICE_ACCOUNT}"
+- apiVersion: v1
+  kind: ClusterRole
+  metadata:
+    name: pvc-reader
+    labels:
+      template: aws-ocp-snap
+  rules:
+    - apiGroups:
+        - storage.k8s.io
+      resources:
+        - persistentvolumes
+      verbs:
+        - get
+        - list
+        - watch
+- apiVersion: v1
+  kind: ClusterRoleBinding
+  metadata:
+    name: system:pvc-reader
+    labels:
+      template: aws-ocp-snap
+  roleRef:
+    name: pvc-reader
+  subjects:
+  - kind: ServiceAccount
+    name: ${JOB_SERVICE_ACCOUNT}
+  userNames:
+  - system:serviceaccount:${NAMESPACE}:${JOB_SERVICE_ACCOUNT}
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: ${JOB_SERVICE_ACCOUNT}
+    labels:
+      template: aws-ocp-snap
 parameters:
 - description: The name assigned to all of the frontend objects defined in this template.
   displayName: Name
@@ -137,4 +181,9 @@ parameters:
   displayName: Persistent Volume Claim name
   description: Persistent Volume Claim name (can be ALL)
   value: ""
+  required: true
+- name: "JOB_SERVICE_ACCOUNT"
+  displayName: "Service Account Name"
+  description: "Name of the Service Account To Exeucte the Job As."
+  value: "ebs-snap-creator"
   required: true
