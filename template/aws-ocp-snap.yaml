@@ -67,7 +67,9 @@ objects:
             - name: "${JOB_NAME}"
               image: docker-registry.default.svc:5000/${NAMESPACE}/${NAME}:latest
               command:
-              - /usr/local/bin/create_snapshot.sh ${NSPACE} ${VOL}
+                - "/bin/bash"
+                - "-c"
+                - "/usr/local/bin/create_snapshot.sh ${NSPACE} ${VOL}"
               env:
               - name: AWS_ACCESS_KEY_ID
                 valueFrom:
@@ -98,13 +100,30 @@ objects:
       template: aws-ocp-snap
   rules:
     - apiGroups:
-        - storage.k8s.io
+      - ""
       resources:
-        - persistentvolumes
+      - persistentvolumes
       verbs:
-        - get
-        - list
-        - watch
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - storage.k8s.io
+      resources:
+      - storageclasses
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - events
+      - persistentvolumeclaims
+      verbs:
+      - get
+      - list
+      - watch
 - apiVersion: v1
   kind: ClusterRoleBinding
   metadata:
