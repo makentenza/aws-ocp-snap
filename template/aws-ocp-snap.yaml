@@ -73,7 +73,7 @@ objects:
                   secretKeyRef:
                     name: aws-secret
                     key: access_key
-              - name: AWS_REGION
+              - name: AWS_DEFAULT_REGION
                 valueFrom:
                   secretKeyRef:
                     name: aws-secret
