@@ -67,8 +67,6 @@ objects:
             - name: "${JOB_NAME}"
               image: docker-registry.default.svc:5000/${NAMESPACE}/${NAME}:latest
               command:
-              - "/bin/bash"
-              - "-c"
               - /usr/local/bin/create_snapshot.sh ${NSPACE} ${VOL}
               env:
               - name: AWS_ACCESS_KEY_ID
