@@ -180,7 +180,7 @@ parameters:
   description: Persistent Volume Claim name (can be ALL)
   value: ""
   required: true
-- name: "JOB_SERVICE_ACCOUNT"
+- name: JOB_SERVICE_ACCOUNT
   displayName: "Service Account Name"
   description: "Name of the Service Account To Exeucte the Job As."
   value: "ebs-snap-creator"
