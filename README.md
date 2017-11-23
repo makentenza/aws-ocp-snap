@@ -1,4 +1,4 @@
-## Snapshots from OpenShift Persistent Volumes in AWS - WIP
+## Snapshots from OpenShift Persistent Volumes in AWS
 
 This container is meant to be used as a Kubernetes CronJob to periodically create snapshots from EBS volumes used in OpenShift as Persistent Volumes.
 
